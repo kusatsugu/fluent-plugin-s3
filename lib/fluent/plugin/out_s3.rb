@@ -30,6 +30,7 @@ class S3Output < Fluent::TimeSlicedOutput
   config_param :s3_endpoint, :string, :default => nil
   config_param :s3_object_key_format, :string, :default => "%{path}%{time_slice}_%{index}.%{file_extension}"
   config_param :auto_create_bucket, :bool, :default => true
+  config_param :proxy_uri, :string, :default => nil
 
   attr_reader :bucket
 
@@ -71,6 +72,7 @@ class S3Output < Fluent::TimeSlicedOutput
     end
     options[:s3_endpoint] = @s3_endpoint if @s3_endpoint
     options[:use_ssl] = @use_ssl
+    options[:proxy_uri] = @proxy_uri
 
     @s3 = AWS::S3.new(options)
     @bucket = @s3.buckets[@s3_bucket]
